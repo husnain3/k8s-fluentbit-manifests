@@ -66,7 +66,7 @@ data:
         Name                tail
         Tag                 others.*
         Exclude_Path        /var/log/containers/dev*
-        Path                /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
+        Path                /var/log/containers/dev-metrics-server*, /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -98,6 +98,7 @@ data:
         Match               others.*
         region              ${AWS_REGION}
         log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/others
+        log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insights
 
@@ -122,7 +123,7 @@ data:
         Name                kubernetes
         Match               dev.*
         Kube_URL            https://kubernetes.default.svc:443
-        Kube_Tag_Prefix     application.
+        Kube_Tag_Prefix     application.var.log.containers.
         Merge_Log           On
         Merge_Log_Key       log_processed
         K8S-Logging.Parser  On
@@ -138,6 +139,7 @@ data:
         Match               dev.*
         region              ${AWS_REGION}
         log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/dev
+        log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insights
 
