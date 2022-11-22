@@ -58,8 +58,6 @@ data:
         storage.backlog.mem_limit 5M
         
     @INCLUDE application-log.conf
-    @INCLUDE dataplane-log.conf
-    @INCLUDE host-log.conf
   
   application-log.conf: |
     [INPUT]
