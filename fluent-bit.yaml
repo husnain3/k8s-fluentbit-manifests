@@ -63,7 +63,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 other.*
-        Exclude_Path        /var/log/containers/dev-api*
+        Exclude_Path        /var/log/containers/*
         Path                /var/log/containers/dev-metric*, /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
         Docker_Mode         On
         Docker_Mode_Flush   5
@@ -104,7 +104,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 dev-api-deployment.*
-        Exclude_Path        /var/log/containers/dev-metric*, /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
+        Exclude_Path        /var/log/containers/*
         Path                /var/log/containers/dev-api-deployment*
         Docker_Mode         On
         Docker_Mode_Flush   5
@@ -141,6 +141,7 @@ data:
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insights
+
 
   parsers.conf: |
     [PARSER]
