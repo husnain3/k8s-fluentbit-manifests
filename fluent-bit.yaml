@@ -101,47 +101,6 @@ data:
         log_stream_prefix   application
         auto_create_group   true
         extra_user_agent    container-insights
-
-    [INPUT]
-        Name                tail
-        Tag                 dev-api.*
-        Exclude_Path        /var/log/containers/dev-metrics*, /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
-        Path                /var/log/containers/dev-api-deployment*
-        Docker_Mode         On
-        Docker_Mode_Flush   5
-        Docker_Mode_Parser  container_firstline
-        Parser              docker
-        DB                  /var/fluent-bit/state/flb_container.db
-        Mem_Buf_Limit       50MB
-        Skip_Long_Lines     On
-        Refresh_Interval    10
-        Rotate_Wait         30
-        storage.type        filesystem
-        Read_from_Head      ${READ_FROM_HEAD}
-    
-    [FILTER]
-        Name                kubernetes
-        Match               dev-api.*
-        Kube_URL            https://kubernetes.default.svc:443
-        Kube_Tag_Prefix     application.var.log.containers.
-        Merge_Log           On
-        Merge_Log_Key       log_processed
-        K8S-Logging.Parser  On
-        K8S-Logging.Exclude Off
-        Labels              Off
-        Annotations         Off
-        Use_Kubelet         On
-        Kubelet_Port        10250
-        Buffer_Size         0
-
-    [OUTPUT]
-        Name                cloudwatch_logs
-        Match               dev-api.*
-        region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/dev
-        log_stream_prefix   application
-        auto_create_group   true
-        extra_user_agent    container-insights
         
 
   parsers.conf: |
