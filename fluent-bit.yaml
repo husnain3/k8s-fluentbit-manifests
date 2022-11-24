@@ -82,8 +82,6 @@ data:
         Match               other.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
-        Merge_Log           On
-        Merge_Log_Key       log_processed
         K8S-Logging.Parser  On
         K8S-Logging.Exclude Off
         Labels              Off
@@ -122,8 +120,6 @@ data:
         Match               dev-api-deployment.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
-        Merge_Log           On
-        Merge_Log_Key       log_processed
         K8S-Logging.Parser  On
         K8S-Logging.Exclude Off
         Labels              Off
@@ -162,8 +158,6 @@ data:
         Match               dev-api-consumer-deployment.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
-        Merge_Log           On
-        Merge_Log_Key       log_processed
         K8S-Logging.Parser  On
         K8S-Logging.Exclude Off
         Labels              Off
