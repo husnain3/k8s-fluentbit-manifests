@@ -62,8 +62,8 @@ data:
   application-log.conf: |
     [INPUT]
         Name                tail
-        Tag                 application.*
-        Path                /var/log/containers/dev-metric*,
+        Tag                 other.*
+        Path                /var/log/containers/dev-metric*, /var/log/containers/cloudwatch-agent*, /var/log/containers/fluent-bit*, /var/log/containers/aws-node*, /var/log/containers/kube-proxy*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -78,7 +78,7 @@ data:
 
     [FILTER]
         Name                kubernetes
-        Match               application.*
+        Match               other.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
         Merge_Log           On
@@ -94,12 +94,257 @@ data:
 
     [OUTPUT]
         Name                cloudwatch_logs
-        Match               host.*
+        Match               other.*
         region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/husnain/${CLUSTER_NAME}/application
-        log_stream_prefix   ${HOST_NAME}-husnain
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/other
+        log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
-        log_retention_days  3
+        extra_user_agent    container-insights
+
+    [INPUT]
+        Name                tail
+        Tag                 dev-api-deployment.*
+        Path                /var/log/containers/dev-api-deployment*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               dev-api-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               dev-api-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/dev-api
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+
+    [INPUT]
+        Name                tail
+        Tag                 dev-api-consumer-deployment.*
+        Path                /var/log/containers/dev-api-consumer*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               dev-api-consumer-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               dev-api-consumer-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/dev-api-consumer
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+    
+    [INPUT]
+        Name                tail
+        Tag                 stag-api-deployment.*
+        Path                /var/log/containers/stag-api-deployment*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               stag-api-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               stag-api-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/stag-api
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+    
+    [INPUT]
+        Name                tail
+        Tag                 stag-api-consumer-deployment.*
+        Path                /var/log/containers/stag-api-consumer*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               stag-api-consumer-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               stag-api-consumer-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/stag-api-consumer
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+
+    [INPUT]
+        Name                tail
+        Tag                 prod-api-deployment.*
+        Path                /var/log/containers/prod-api-deployment*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               prod-api-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               prod-api-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/prod-api
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+    
+    [INPUT]
+        Name                tail
+        Tag                 prod-api-consumer-deployment.*
+        Path                /var/log/containers/prod-api-consumer*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               prod-api-consumer-deployment.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               prod-api-consumer-deployment.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application/prod-api-consumer
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
         extra_user_agent    container-insights
 
 
