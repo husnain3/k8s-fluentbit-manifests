@@ -88,19 +88,20 @@ data:
         Name              modify
         Match             kube.*
         Rename            log, log_stream
-        Expression        ${record['kubernetes']['namespace']}_${record['kubernetes']['labels']['app_kubernetes_io/instance']}
+        Rename            kubernetes.namespace, namespace
+        Rename            kubernetes.labels.app_kubernetes_io/instance, instance
+        Rename            kubernetes.labels.app_kubernetes_io/name, app_name
 
     [OUTPUT]
         Name              cloudwatch
         Match             kube.*
         region            ${AWS_REGION}
-        log_group_name    ${record['log_stream']}
-        log_stream_prefix ${record['kubernetes']['namespace']}
+        log_group_name    ${namespace}_${instance}
+        log_stream_prefix ${app_name}
         log_key           log
         auto_create_group true
         replace_dash      true
         replace_underscores true
-
 
   parsers.conf: |
     [PARSER]
