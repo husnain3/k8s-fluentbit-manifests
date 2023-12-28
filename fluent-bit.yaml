@@ -97,6 +97,7 @@ data:
         Match               kube.*
         Rule                $log $tag ${namespace}.${container_name}.*
 
+
     [OUTPUT]
         Name                cloudwatch_logs
         Match               bond-dev.*
