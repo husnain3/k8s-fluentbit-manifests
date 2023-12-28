@@ -91,12 +91,19 @@ data:
        Use_Kubelet        On
        Kubelet_Port       10250
        Buffer_Size        0
+  
+    [FILTER]
+       Name              modify
+       Match             *
+       Add               kube_pod_namespace %KUBE_POD_NAMESPACE%
+       Add               kube_pod_name    %KUBE_POD_NAME%
+       Add               container_name   %CONTAINER_NAME%
 
    [OUTPUT]
        Name               cloudwatch_logs
        Match              *
        region             ${AWS_REGION}
-       log_group_name     /aws/containerinsights/${CLUSTER_NAME}/application/%KUBE_POD_NAMESPACE%-%KUBE_POD_NAME%-%CONTAINER_NAME%
+       log_group_name   /aws/containerinsights/${CLUSTER_NAME}/application/${kube_pod_namespace}.${kube_pod_name}.${container_name}
        log_stream_prefix  ${HOST_NAME}-
        auto_create_group  true
        extra_user_agent   container-insights
