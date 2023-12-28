@@ -103,7 +103,7 @@ data:
 
     [OUTPUT]
         Name               cloudwatch_logs
-        Match              api-consumer-deployment*
+        Match              dev-api-consumer-deployment*
         region             ${AWS_REGION}
         log_group_name     /aws/containerinsights/${CLUSTER_NAME}/application/husssconsumer
         log_stream_prefix  ${HOST_NAME}-
