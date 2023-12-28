@@ -92,7 +92,7 @@ data:
        Kubelet_Port       10250
        Buffer_Size        0
   
-    [FILTER]
+   [FILTER]
        Name              modify
        Match             *
        Add               kube_pod_namespace %KUBE_POD_NAMESPACE%
