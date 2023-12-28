@@ -96,8 +96,8 @@ data:
         Name                cloudwatch_logs
         Match               host.*
         region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/application
-        log_stream_prefix   ${HOST_NAME}-
+        log_group_name      /aws/containerinsights/husnain/${CLUSTER_NAME}/application
+        log_stream_prefix   ${HOST_NAME}-husnain
         auto_create_group   true
         log_retention_days  3
         extra_user_agent    container-insights
