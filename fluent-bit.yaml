@@ -63,7 +63,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 kube.*
-        Path                /var/log/containers/*.log
+        Path                /var/log/containers/*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -95,7 +95,7 @@ data:
     [FILTER]
         Name                rewrite_tag
         Match               kube.*
-        Rule                $log $tag ${namespace}.${container_name}.* ; Rewrite the tag to include namespace and container name
+        Rule                $log $tag ${namespace}.${container_name}.*
 
     [OUTPUT]
         Name                cloudwatch_logs
