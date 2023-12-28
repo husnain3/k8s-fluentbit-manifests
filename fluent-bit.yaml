@@ -96,7 +96,7 @@ data:
         Name              cloudwatch_logs
         Match             application.*
         region            ${AWS_REGION}
-        log_group_name    /${CLUSTER_NAME}/$(kubernetes['namespace_name'])/$(kubernetes['pod_name'])
+        log_group_name    /${CLUSTER_NAME}/huss/$(kubernetes['namespace_name'])/$(kubernetes['pod_name'])
         log_stream_name   $(kubernetes['host'])/$(kubernetes['namespace_name'])/$(kubernetes['pod_name'])/$(kubernetes['container_name'])
         auto_create_group true
         extra_user_agent  container-insights
