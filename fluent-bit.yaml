@@ -101,7 +101,7 @@ data:
         Name                cloudwatch_logs
         Match               applogs*
         region              ${AWS_REGION}
-        log_group_name      /eks/$kubernetes['namespace_name']-['container_name']/application
+        log_group_name      "/eks/$kubernetes['namespace_name']-['container_name']/application"
         log_stream_prefix   eks-
         auto_create_group   true
         
