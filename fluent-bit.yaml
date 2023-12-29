@@ -96,10 +96,9 @@ data:
         Name                  cloudwatch_logs
         Match                 application.*
         region                ${AWS_REGION}
-        log_group_name        fallback-group
         log_stream_prefix     fallback-stream
         auto_create_group     On
-        log_group_template    application-logs-$kubernetes['host'].$kubernetes['namespace_name'].$kubernetes['container_name']
+        log_group_template    $kubernetes['host'].$kubernetes['namespace_name'].$kubernetes['container_name']
         log_stream_template   $kubernetes['pod_name'].$kubernetes['container_name']
         
 
