@@ -91,14 +91,20 @@ data:
         Use_Kubelet        On
         Kubelet_Port       10250
         Buffer_Size        0
+    
+    [FILTER]
+        Name                rewrite_tag
+        Match               application.*
+        Rule                $kubernetes['namespace_name']  ^[a-zA-Z0-9-_]*$  applogs-$kubernetes['host'].$kubernetes['namespace_name'].$kubernetes['pod_name'].$kubernetes['container_name']  false
 
     [OUTPUT]
-        Name              cloudwatch
-        Match             application.*
-        region            ${AWS_REGION}
-        log_group_name    /${AWS_REGION}/$(kubernetes['namespace_name'])/$(kubernetes['container_name'])
-        log_stream_name   $(kubernetes['host'])/$(kubernetes['namespace_name'])/$(kubernetes['pod_name'])/$(kubernetes['container_name'])
-        auto_create_group on
+        Name                cloudwatch_logs
+        Match               applogs*
+        region              ${AWS_REGION}
+        log_group_name      /eks/$kubernetes['namespace_name']-['container_name']/application
+        log_stream_prefix   eks-
+        auto_create_group   true
+        
 
   parsers.conf: |
     [PARSER]
