@@ -99,8 +99,7 @@ data:
         log_stream_prefix     fallback-stream
         auto_create_group     On
         log_group_name        $kubernetes['host'].$kubernetes['namespace_name'].$kubernetes['container_name']
-        log_stream_template   $kubernetes['container_name'].$kubernetes['pod_name'].gg
-        
+        log_stream_template   $kubernetes['pod_name'].$kubernetes['container_name']        
 
   parsers.conf: |
     [PARSER]
