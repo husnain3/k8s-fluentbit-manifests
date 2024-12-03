@@ -60,12 +60,15 @@ data:
     @INCLUDE application-bond-api-dev-log.conf
     @INCLUDE application-bond-api-consumer-dev-log.conf
     @INCLUDE application-bond-balances-api-dev-log.conf
+    @INCLUDE application-bond-banking-integrations-api-dev-log.conf
     @INCLUDE application-bond-api-stag-log.conf
     @INCLUDE application-bond-api-consumer-stag-log.conf
     @INCLUDE application-bond-balances-api-stag-log.conf
+    @INCLUDE application-bond-banking-integrations-api-stag-log.conf
     @INCLUDE application-bond-api-prod-log.conf
     @INCLUDE application-bond-api-consumer-prod-log.conf
     @INCLUDE application-bond-balances-api-prod-log.conf
+    @INCLUDE application-bond-banking-integrations-api-prod-log.conf
 
 
   application-bond-api-dev-log.conf: |
