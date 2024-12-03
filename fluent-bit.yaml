@@ -110,7 +110,7 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-api-dev-log.conf: |
+  application-bond-banking-integrations-dev-log.conf: |
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-dev.*
@@ -279,7 +279,7 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-api-stag-log.conf: |
+  application-bond-banking-integrations-stag-log.conf: |
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-stag.*
@@ -447,7 +447,7 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-api-prod-log.conf: |
+  application-bond-banking-integrations-prod-log.conf: |
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-prod.*
