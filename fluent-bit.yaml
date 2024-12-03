@@ -117,7 +117,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-api-dev.*
-        Path                /var/log/containers/*_bond-banking-integrations-api-dev_*
+        Path                /var/log/containers/*_bond-banking-integrations-dev_*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -286,7 +286,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-api-stag.*
-        Path                /var/log/containers/*_bond-banking-integrations-api-stag_*
+        Path                /var/log/containers/*_bond-banking-integrations-stag_*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -454,7 +454,7 @@ data:
     [INPUT]
         Name                tail
         Tag                 bond-banking-integrations-api-prod.*
-        Path                /var/log/containers/*_bond-banking-integrations-api-prod_*
+        Path                /var/log/containers/*_bond-banking-integrations-prod_*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
