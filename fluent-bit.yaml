@@ -110,6 +110,48 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
+  application-bond-banking-integrations-api-dev-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-banking-integrations-dev.*
+        Path                /var/log/containers/*_bond-banking-integrations-dev_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              json
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-banking-integrations-dev.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-banking-integrations-dev.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-dev
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
   application-bond-api-consumer-dev-log.conf: |
     [INPUT]
         Name                tail
@@ -237,6 +279,48 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
+  application-bond-banking-integrations-api-stag-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-banking-integrations-stag.*
+        Path                /var/log/containers/*_bond-banking-integrations-stag_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              json
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-banking-integrations-stag.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-banking-integrations-stag.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-stag
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
   application-bond-api-consumer-stag-log.conf: |
     [INPUT]
         Name                tail
@@ -359,6 +443,48 @@ data:
         Match               bond-api-prod.*
         region              ${AWS_REGION}
         log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-api-prod
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
+  application-bond-banking-integrations-api-prod-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-banking-integrations-prod.*
+        Path                /var/log/containers/*_bond-banking-integrations-prod_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              json
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-banking-integrations-prod.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-banking-integrations-prod.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-api-prod
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
