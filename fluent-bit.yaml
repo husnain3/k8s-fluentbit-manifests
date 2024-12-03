@@ -110,11 +110,11 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-dev-log.conf: |
+  application-bond-banking-integrations-api-dev-log.conf: |
     [INPUT]
         Name                tail
-        Tag                 bond-banking-integrations-dev.*
-        Path                /var/log/containers/*_bond-banking-api-integrations-dev_*
+        Tag                 bond-banking-integrations-api-dev.*
+        Path                /var/log/containers/*_bond-banking-integrations-api-dev_*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -129,7 +129,7 @@ data:
 
     [FILTER]
         Name                kubernetes
-        Match               bond-banking-integrations-dev.*
+        Match               bond-banking-integrations-api-dev.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
         Merge_Log           On
@@ -145,9 +145,9 @@ data:
 
     [OUTPUT]
         Name                cloudwatch_logs
-        Match               bond-banking-integrations-dev.*
+        Match               bond-banking-integrations-api-dev.*
         region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-dev
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-api-dev
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
@@ -279,11 +279,11 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-stag-log.conf: |
+  application-bond-banking-integrations-api-stag-log.conf: |
     [INPUT]
         Name                tail
-        Tag                 bond-banking-integrations-stag.*
-        Path                /var/log/containers/*_bond-banking-api-integrations-stag_*
+        Tag                 bond-banking-integrations-api-stag.*
+        Path                /var/log/containers/*_bond-banking-integrations-api-stag_*
         Docker_Mode         On
         Docker_Mode_Flush   5
         Docker_Mode_Parser  container_firstline
@@ -298,7 +298,7 @@ data:
 
     [FILTER]
         Name                kubernetes
-        Match               bond-banking-integrations-stag.*
+        Match               bond-banking-integrations-api-stag.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
         Merge_Log           On
@@ -314,9 +314,9 @@ data:
 
     [OUTPUT]
         Name                cloudwatch_logs
-        Match               bond-banking-integrations-stag.*
+        Match               bond-banking-integrations-api-stag.*
         region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-stag
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-api-stag
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
@@ -447,10 +447,10 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
-  application-bond-banking-integrations-prod-log.conf: |
+  application-bond-banking-integrations-api-prod-log.conf: |
     [INPUT]
         Name                tail
-        Tag                 bond-banking-integrations-prod.*
+        Tag                 bond-banking-integrations-api-prod.*
         Path                /var/log/containers/*_bond-banking-integrations-api-prod_*
         Docker_Mode         On
         Docker_Mode_Flush   5
@@ -466,7 +466,7 @@ data:
 
     [FILTER]
         Name                kubernetes
-        Match               bond-banking-integrations-prod.*
+        Match               bond-banking-integrations-api-prod.*
         Kube_URL            https://kubernetes.default.svc:443
         Kube_Tag_Prefix     application.var.log.containers.
         Merge_Log           On
@@ -482,9 +482,9 @@ data:
 
     [OUTPUT]
         Name                cloudwatch_logs
-        Match               bond-banking-integrations-prod.*
+        Match               bond-banking-integrations-api-prod.*
         region              ${AWS_REGION}
-        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-prod
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-api-prod
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
