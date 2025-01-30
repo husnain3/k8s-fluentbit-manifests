@@ -69,6 +69,10 @@ data:
     @INCLUDE application-bond-api-consumer-prod-log.conf
     @INCLUDE application-bond-balances-api-prod-log.conf
     @INCLUDE application-bond-banking-integrations-api-prod-log.conf
+    @INCLUDE application-bond-api-sandbox-log.conf
+    @INCLUDE application-bond-api-consumer-sandbox-log.conf
+    @INCLUDE application-bond-balances-api-sandbox-log.conf
+    @INCLUDE application-bond-banking-integrations-api-sandbox-log.conf
 
 
   application-bond-api-dev-log.conf: |
@@ -109,6 +113,48 @@ data:
         Match               bond-api-dev.*
         region              ${AWS_REGION}
         log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-api-dev
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
+  application-bond-api-sandbox-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-api-sandbox.*
+        Path                /var/log/containers/*_bond-api-sandbox_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-api-sandbox.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-api-sandbox.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-api-sandbox
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
@@ -155,6 +201,48 @@ data:
         auto_create_group   true
         extra_user_agent    container-insight
 
+  application-bond-banking-integrations-api-sandbox-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-banking-integrations-api-sandbox.*
+        Path                /var/log/containers/*_bond-banking-integrations-sandbox_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              json
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-banking-integrations-api-sandbox.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-banking-integrations-api-sandbox.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-banking-integrations-api-sandbox
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
   application-bond-api-consumer-dev-log.conf: |
     [INPUT]
         Name                tail
@@ -197,6 +285,48 @@ data:
         auto_create_group   true
         extra_user_agent    container-insights
 
+  application-bond-api-consumer-sandbox-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-api-consumer-sandbox.*
+        Path                /var/log/containers/*_bond-api-consumer-sandbox_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-api-consumer-sandbox.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-api-consumer-sandbox.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-api-consumer-sandbox
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insights
+
   application-bond-balances-api-dev-log.conf: |
     [INPUT]
         Name                tail
@@ -235,6 +365,48 @@ data:
         Match               bond-balances-api-dev.*
         region              ${AWS_REGION}
         log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-balances-api-dev
+        log_stream_prefix   ${HOST_NAME}-
+        auto_create_group   true
+        extra_user_agent    container-insight
+
+  application-bond-balances-api-sandbox-log.conf: |
+    [INPUT]
+        Name                tail
+        Tag                 bond-balances-api-sandbox.*
+        Path                /var/log/containers/*_bond-balances-api-sandbox_*
+        Docker_Mode         On
+        Docker_Mode_Flush   5
+        Docker_Mode_Parser  container_firstline
+        Parser              docker
+        DB                  /var/fluent-bit/state/flb_container.db
+        Mem_Buf_Limit       50MB
+        Skip_Long_Lines     On
+        Refresh_Interval    10
+        Rotate_Wait         30
+        storage.type        filesystem
+        Read_from_Head      ${READ_FROM_HEAD}
+
+    [FILTER]
+        Name                kubernetes
+        Match               bond-balances-api-sandbox.*
+        Kube_URL            https://kubernetes.default.svc:443
+        Kube_Tag_Prefix     application.var.log.containers.
+        Merge_Log           On
+        Merge_Log_Key       log_processed
+        Keep_Log            off
+        K8S-Logging.Parser  On
+        K8S-Logging.Exclude Off
+        Labels              Off
+        Annotations         Off
+        Use_Kubelet         On
+        Kubelet_Port        10250
+        Buffer_Size         0
+
+    [OUTPUT]
+        Name                cloudwatch_logs
+        Match               bond-balances-api-sandbox.*
+        region              ${AWS_REGION}
+        log_group_name      /aws/containerinsights/${CLUSTER_NAME}/bond-balances-api-sandbox
         log_stream_prefix   ${HOST_NAME}-
         auto_create_group   true
         extra_user_agent    container-insight
